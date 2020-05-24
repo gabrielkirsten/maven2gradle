@@ -16,18 +16,18 @@ function parseAndGenerate(){
     for(var i = 0; i < depElems.length; i++) {
         var depElem = depElems[i];
         var scopeElems = depElem.getElementsByTagName('scope');
-        var scope = 'compile';
+        var scope = 'implementation';
         if (scopeElems.length && scopeElems[0].innerHTML == 'test') {
-            scope = 'testCompile';
+            scope = 'testImplementation';
         }
         var group = depElem.getElementsByTagName('groupId')[0].innerHTML;
         var artifact = depElem.getElementsByTagName('artifactId')[0].innerHTML;
         var versionElems = depElem.getElementsByTagName('version');
-        var version = '*';
+        var version = '';
         if (versionElems.length) {
-            version = versionElems[0].innerHTML;
+            version = ':' + versionElems[0].innerHTML;
         }
-        grDeps.push(scope + ' ' + '"' + group + ":" + artifact + ":" + version + '"');
+        grDeps.push(scope + '(' + '"' + group + ":" + artifact + version + '")');
     }
     var grDepsOutput = grDeps.join('\n');
     if(shouldAddOuterClosure){
